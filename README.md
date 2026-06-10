@@ -151,6 +151,7 @@ tests/                  # pytest suite (tools + agent + ARF + compute + domains)
 Apache-2.0 for the architecture in this repository. See [LICENSE](LICENSE). The
 proprietary physics framework is licensed separately (see **Availability**).
 
-## Maintainer
+## Team
 
-Nakul Vyas, Heysuvi Labs, LLC - [heysuvi.com](https://heysuvi.com)
+- **Nakul Vyas**, Heysuvi Labs, LLC - [heysuvi.com](https://heysuvi.com) - [nvyas@heysuvi.com](mailto:nvyas@heysuvi.com)
+- **Dr. Iliya Stoev** - Scientific Advisor - [istoev@heysuvi.com](mailto:istoev@heysuvi.com)
