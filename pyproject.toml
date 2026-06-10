@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "axiom-agent"
+version = "0.1.0"
+description = "Democratizing scientific computing: an ADK + Gemini agent that runs heavy simulations on on-demand cloud GPUs, no owned HPC cluster required."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Nakul Vyas, Heysuvi Labs, LLC", email = "nvyas@heysuvi.com" }]
+keywords = ["ai-agent", "google-adk", "gemini", "vertex-ai", "gpu-compute", "axiom-reasoning"]
+dependencies = []
+
+[project.urls]
+Homepage = "https://heysuvi.com"
+
+[project.optional-dependencies]
+# ADK + Gemini drive the agent; install to run with a real model.
+adk = ["google-adk>=1.0.0", "google-genai>=0.3.0"]
+# Google Cloud GPU compute for heavy simulations (Vertex AI Custom Jobs).
+gpu = ["google-cloud-aiplatform>=1.40.0"]
+dev = ["pytest>=7.4"]
+
+[project.scripts]
+axiom-agent = "axiom_agent.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["axiom_agent*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

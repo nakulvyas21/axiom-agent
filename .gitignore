@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Simulation job outputs
+result.json
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.venv/
+venv/
+env/
+
+# Secrets / credentials - NEVER commit
+.env
+.env.*
+!.env.example
+*-key.json
+service-account*.json
+credentials*.json
+
+# Local ARF backend implementations
+arf_local/
+**/arf_local/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
