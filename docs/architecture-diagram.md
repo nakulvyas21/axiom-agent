@@ -55,7 +55,7 @@ flowchart TB
         P["Validated physics + reasoning core<br/>powers the certified design loop"]
     end
 
-    A -. drives .-> G
+    A -. calls .-> G
     T -- heavy jobs --> V
     R -. backed by .-> P
 
