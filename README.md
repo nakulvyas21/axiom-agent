@@ -52,28 +52,42 @@ loop is powered by the proprietary physics framework (see **Availability**).
 
 ## Architecture
 
+```mermaid
+flowchart TB
+    subgraph AGENT["Agent layer — design loop: propose → validate → iterate → certify"]
+        A[AxiomAgent<br/>ADK LlmAgent + Runner]
+        D["Domains registry<br/>classical_mechanics · molecular_dynamics · …"]
+        T["Validation tools<br/>closed-form physics + run_simulation"]
+        R["ARF interface<br/>(reasoning, pluggable)"]
+        A --> D
+        A --> T
+        A --> R
+    end
+
+    subgraph GCP["Google Cloud · Vertex AI"]
+        G[Gemini<br/>model serving]
+        V["Vertex AI Custom Job<br/>GPU workers (A100)"]
+        AR[(Artifact Registry<br/>simulation-engine container)]
+        V --- AR
+    end
+
+    subgraph IP["Proprietary physics framework (licensed separately)"]
+        P["Validated physics + reasoning core"]
+    end
+
+    A -. drives .-> G
+    T -- heavy jobs --> V
+    R -. backed by .-> P
+
+    classDef agent fill:#e8f0fe,stroke:#4285f4,color:#1a1a1a;
+    classDef gcp fill:#fef7e0,stroke:#fbbc04,color:#1a1a1a;
+    classDef ip fill:#fce8e6,stroke:#ea4335,color:#1a1a1a;
+    class A,D,T,R agent;
+    class G,V,AR gcp;
+    class P ip;
 ```
-  AGENT LAYER          design loop: propose → validate → iterate → certify
-  ┌─────────────────────────────────────────────────────────────┐
-  │            AxiomAgent   (ADK LlmAgent + Runner)              │
-  └───────┬──────────────────┬───────────────────┬──────────────┘
-          │                  │                   │
-  ┌───────▼───────┐  ┌───────▼────────┐  ┌───────▼───────────────┐
-  │ reasoning →   │  │ physics domains│  │ run_simulation        │
-  │ ARF (plugin)  │  │ (registry)     │  │  → ComputeBackend     │
-  └───────┬───────┘  └────────────────┘  └───────┬───────────────┘
-          │                                       │
-══════════╪═══════════ GOOGLE CLOUD · VERTEX AI ══╪═══════════════════
-          │                                       │
-  ┌───────▼───────────┐               ┌───────────▼────────────────┐
-  │  Gemini           │               │  Vertex AI Custom Job       │
-  │  (model serving)  │               │  GPU workers (A100)    ←┐   │
-  │  drives the ADK   │               │  run the simulation     │   │
-  │  LlmAgent         │               │  engine                 │   │
-  └───────────────────┘               └─────────────────────────┼──┘
-                                       Artifact Registry ───────┘
-                                       (simulation-engine container)
-```
+
+> Full diagrams (design loop + boundaries): [docs/architecture-diagram.md](docs/architecture-diagram.md)
 
 The agent runs on **Google Cloud / Vertex AI**: Gemini serves the ADK
 `LlmAgent`, and heavy simulations run as **Vertex AI Custom Jobs on GPU workers
